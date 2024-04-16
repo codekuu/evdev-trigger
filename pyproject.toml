@@ -1,0 +1,89 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "evdev-trigger"
+dynamic = ["version"]
+description = "Trigger actions based on evdev events from input devices."
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "codekuu", email = "hello-evdev-trigger@inaktiverad.se" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "evdev==1.7.0",
+  "pick==2.2.0",
+  "python-dotenv==1.0.1",
+  "typer==0.12.3",
+]
+
+[project.scripts]
+evdev-trigger = "evdev_trigger.main:app"
+
+[project.urls]
+Documentation = "https://github.com/codekuu/evdev-trigger#readme"
+Issues = "https://github.com/codekuu/evdev-trigger/issues"
+Source = "https://github.com/codekuu/evdev-trigger"
+
+[tool.hatch.version]
+path = "src/evdev_trigger/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/evdev_trigger tests}"
+
+[tool.coverage.run]
+source_pkgs = ["evdev_trigger", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/evdev_trigger/__about__.py",
+]
+
+[tool.coverage.paths]
+evdev_trigger = ["src/evdev_trigger", "*/evdev-trigger/src/evdev_trigger"]
+tests = ["tests", "*/evdev-trigger/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

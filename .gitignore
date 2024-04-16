@@ -1,0 +1,6 @@
+__pycache__/
+.env
+default_actions/
+dist/
+storage.json
+venv/
