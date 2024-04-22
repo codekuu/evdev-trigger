@@ -153,7 +153,7 @@ If you want to react on all codes or values, just press enter"""
         """
         input_options = [input_device for input_device in self._input_devices]
         selected = pick(
-            input_options,
+            sorted(input_options),
             "Select input devices to listen on",
             indicator="=>",
             multiselect=True,
@@ -171,7 +171,7 @@ If you want to react on all codes or values, just press enter"""
             # Get the actions for each device
             while True:
                 selected = pick(
-                    action_options,
+                    sorted(action_options),
                     f"""======= {input_device.name} ======\n
 Selected Actions: {", ".join(actions.keys()) or 'No actions selected'}\n\n
 Add Action:""",
